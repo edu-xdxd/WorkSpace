@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".CrearEFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="middle">
+
+        <!-- Nombre del Entorno -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="Nombre del Entorno"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextEnvironmentName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ej: Sala de Estar Mañana"
+                        android:inputType="textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Sensores -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:text="Sensores a utilizar"
+             />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSensors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="200dp"
+
+            android:padding="8dp"
+            android:elevation="2dp" />
+
+        <!-- Horario -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonStartTime"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Seleccionar Inicio"
+                android:textSize="10dp"
+                android:layout_marginEnd="8dp"
+                app:icon="@drawable/ic_time"
+                app:iconGravity="textStart" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonEndTime"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Seleccionar Fin"
+                android:textSize="10dp"
+                android:layout_marginStart="8dp"
+                app:icon="@drawable/ic_time"
+                app:iconGravity="textStart" />
+        </LinearLayout>
+
+        <!-- Días de la semana -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textSize="10dp"
+            android:text="Días de la semana"
+            android:textAppearance="?attr/textAppearanceTitleMedium"/>
+
+        <LinearLayout
+            android:id="@+id/layoutDaysOfWeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+
+            android:elevation="2dp">
+
+            <CheckBox android:id="@+id/checkBoxMonday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Lunes"/>
+            <CheckBox android:id="@+id/checkBoxTuesday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Martes"/>
+            <CheckBox android:id="@+id/checkBoxWednesday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Miércoles"/>
+            <CheckBox android:id="@+id/checkBoxThursday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jueves"/>
+            <CheckBox android:id="@+id/checkBoxFriday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Viernes"/>
+            <CheckBox android:id="@+id/checkBoxSaturday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sábado"/>
+            <CheckBox android:id="@+id/checkBoxSunday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Domingo"/>
+        </LinearLayout>
+
+
+        <!-- Simulación de Playlist -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="Simulación de Playlist"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompletePlaylist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Seleccionar playlist"
+                        android:inputType="none"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchActivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Entorno activo?"
+            android:textSize="12sp"
+            android:checked="true"
+            android:layout_marginTop="16dp"/>
+
+
+        <!-- Botón Guardar -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSaveEnvironment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Guardar Entorno"
+
+            app:cornerRadius="12dp"
+            android:elevation="4dp" />
+
+        <!-- Estado -->
+        <TextView
+            android:id="@+id/textViewStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textStyle="italic"
+            android:background="@android:color/darker_gray"
+            android:text="Estado del entorno..."
+            android:elevation="2dp"/>
+    </LinearLayout>
+</ScrollView>

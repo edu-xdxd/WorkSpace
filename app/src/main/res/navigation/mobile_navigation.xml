@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.edu.workspace.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_nav_home_to_detalleEntornoFragment"
+            app:destination="@id/DetalleEntornoFragment" />
+
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.edu.workspace.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.edu.workspace.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_crear_e"
+        android:name="com.edu.workspace.CrearEFragment"
+        android:label="Crear Entorno"
+        tools:layout="@layout/fragment_crear_e" />
+
+    <fragment
+        android:id="@+id/nav_sensores"
+        android:name="com.edu.workspace.SensoresFragment"
+        android:label="Sensores"
+        tools:layout="@layout/fragment_sensores" />
+
+    <fragment
+        android:id="@+id/DetalleEntornoFragment"
+        android:name="com.edu.workspace.ui.home.DetalleEntornoFragment"
+        android:label="Detalle del Entorno" />
+
+
+
+</navigation>
