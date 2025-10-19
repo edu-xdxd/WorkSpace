@@ -27,6 +27,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
+import com.edu.workspace.network.ApiEndpoints
 
 class CrearEFragment : Fragment() {
 
@@ -267,7 +268,7 @@ class CrearEFragment : Fragment() {
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
         val request = Request.Builder()
-            .url("http://192.168.0.56:4001/entorno") // Reemplazar con tu URL real
+            .url(ApiEndpoints.CREAR_ENTORNO)
             .post(json.toRequestBody(mediaType))
             .build()
 

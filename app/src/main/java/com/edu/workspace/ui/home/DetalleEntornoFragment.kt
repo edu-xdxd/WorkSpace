@@ -16,18 +16,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edu.workspace.SensoresAdapter
 import com.edu.workspace.databinding.FragmentDetalleEntornoBinding
+import com.edu.workspace.network.ApiEndpoints
 
 
 class DetalleEntornoFragment : Fragment() {
 
     private lateinit var adapter: SensoresAdapter
-
-
-
     private var _binding: FragmentDetalleEntornoBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetalleEntornoViewModel by viewModels()
-
     private val diasCheckBoxes = mutableMapOf<String, CheckBox>()
 
 

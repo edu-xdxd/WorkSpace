@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -56,6 +57,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.3") // O la última versión disponible
     implementation ("com.airbnb.android:lottie:6.4.0")
     implementation ("com.google.code.gson:gson:2.8.9")
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
 
 }

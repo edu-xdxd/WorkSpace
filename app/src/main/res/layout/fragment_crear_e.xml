@@ -4,211 +4,457 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@drawable/bg_gradient"
     tools:context=".CrearEFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:divider="?android:attr/dividerVertical"
-        android:showDividers="middle">
+        android:padding="24dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear Nuevo Entorno"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configura tu entorno inteligente"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp" />
 
         <!-- Nombre del Entorno -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
                     android:text="Nombre del Entorno"
-                    android:textAppearance="?attr/textAppearanceTitleMedium"/>
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusBottomEnd="8dp">
+                    android:layout_marginTop="12dp"
+                    app:boxBackgroundColor="#F8F9FA"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="#3F51B5">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEnvironmentName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Ej: Sala de Estar Mañana"
-                        android:inputType="textCapWords" />
+                        android:inputType="textCapWords"
+                        android:padding="16dp"
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Sensores -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10dp"
-            android:text="Sensores a utilizar"
-             />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSensors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:minHeight="200dp"
-
-            android:padding="8dp"
-            android:elevation="2dp" />
-
-        <!-- Horario -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="24dp"
-            >
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonStartTime"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Seleccionar Inicio"
-                android:textSize="10dp"
-                android:layout_marginEnd="8dp"
-                app:icon="@drawable/ic_time"
-                app:iconGravity="textStart" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonEndTime"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Seleccionar Fin"
-                android:textSize="10dp"
-                android:layout_marginStart="8dp"
-                app:icon="@drawable/ic_time"
-                app:iconGravity="textStart" />
-        </LinearLayout>
-
-        <!-- Días de la semana -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:textSize="10dp"
-            android:text="Días de la semana"
-            android:textAppearance="?attr/textAppearanceTitleMedium"/>
-
-        <LinearLayout
-            android:id="@+id/layoutDaysOfWeek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
-
-            android:elevation="2dp">
-
-            <CheckBox android:id="@+id/checkBoxMonday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Lunes"/>
-            <CheckBox android:id="@+id/checkBoxTuesday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Martes"/>
-            <CheckBox android:id="@+id/checkBoxWednesday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Miércoles"/>
-            <CheckBox android:id="@+id/checkBoxThursday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jueves"/>
-            <CheckBox android:id="@+id/checkBoxFriday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Viernes"/>
-            <CheckBox android:id="@+id/checkBoxSaturday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sábado"/>
-            <CheckBox android:id="@+id/checkBoxSunday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Domingo"/>
-        </LinearLayout>
-
-
-        <!-- Simulación de Playlist -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
-                    android:text="Simulación de Playlist"
-                    android:textAppearance="?attr/textAppearanceTitleMedium"/>
+                    android:text="Sensores a utilizar"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selecciona los sensores para este entorno"
+                    android:textColor="#666666"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewSensors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:minHeight="120dp"
+                    android:background="#F8F9FA"
+                    android:padding="12dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Horario -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Horario de Activación"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonStartTime"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hora de Inicio"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp"
+                        android:padding="12dp"
+                        app:icon="@drawable/ic_time"
+                        app:iconGravity="textStart"
+                        app:strokeColor="#3F51B5"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonEndTime"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hora de Fin"
+                        android:textSize="14sp"
+                        android:layout_marginStart="8dp"
+                        android:padding="12dp"
+                        app:icon="@drawable/ic_time"
+                        app:iconGravity="textStart"
+                        app:strokeColor="#3F51B5"
+                        app:strokeWidth="1dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Días de la semana -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Días de la semana"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selecciona los días de activación"
+                    android:textColor="#666666"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp" />
+
+                <LinearLayout
+                    android:id="@+id/layoutDaysOfWeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:background="#F8F9FA"
+                    android:padding="16dp"
+                    android:paddingVertical="8dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp"
+                        android:layout_marginVertical="4dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxMonday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Lunes"
+                            android:padding="16dp"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp"
+                        android:layout_marginVertical="4dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxTuesday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Martes"
+                            android:padding="16dp"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp"
+                        android:layout_marginVertical="4dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxWednesday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Miércoles"
+                            android:padding="16dp"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp"
+                        android:layout_marginVertical="4dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxThursday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Jueves"
+                            android:padding="16dp"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp"
+                        android:layout_marginVertical="4dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxFriday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Viernes"
+                            android:padding="16dp"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp"
+                        android:layout_marginVertical="4dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSaturday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sábado"
+                            android:padding="16dp"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp"
+                        android:layout_marginVertical="4dp">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSunday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Domingo"
+                            android:padding="16dp"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Simulación de Playlist -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Playlist"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusBottomEnd="8dp">
+                    android:layout_marginTop="12dp"
+                    app:boxBackgroundColor="#F8F9FA"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="#3F51B5">
 
                     <AutoCompleteTextView
                         android:id="@+id/autoCompletePlaylist"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Seleccionar playlist"
-                        android:inputType="none"/>
+                        android:inputType="none"
+                        android:padding="16dp"
+                        android:textSize="14sp"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchActivo"
+        <!-- Switch Activo -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="¿Entorno activo?"
-            android:textSize="12sp"
-            android:checked="true"
-            android:layout_marginTop="16dp"/>
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="¿Entorno activo?"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchActivo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    app:trackColor="@color/switch_track"
+                    app:thumbColor="@color/switch_thumb" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Botón Guardar -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSaveEnvironment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:text="Guardar Entorno"
-
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:backgroundTint="#3F51B5"
             app:cornerRadius="12dp"
-            android:elevation="4dp" />
+            app:elevation="6dp" />
 
         <!-- Estado -->
-        <TextView
-            android:id="@+id/textViewStatus"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#E8F5E8"
             android:layout_marginTop="24dp"
-            android:padding="12dp"
-            android:textColor="@android:color/black"
-            android:textStyle="italic"
-            android:background="@android:color/darker_gray"
-            android:text="Estado del entorno..."
-            android:elevation="2dp"/>
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textViewStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="#2E7D32"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:text="Estado del entorno..." />
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>

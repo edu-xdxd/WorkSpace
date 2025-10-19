@@ -19,6 +19,7 @@
     <color name="green">#4CAF50</color>
     <color name="gray">#DB2020</color>
 
-
+        <color name="switch_track">#C5CAE9</color>
+        <color name="switch_thumb">#3F51B5</color>
 
 </resources>

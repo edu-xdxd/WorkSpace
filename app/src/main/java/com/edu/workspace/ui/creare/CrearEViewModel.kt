@@ -9,6 +9,7 @@ import com.edu.workspace.model.DeviceType
 import com.edu.workspace.model.DeviceUI
 import com.edu.workspace.model.IoTDevice
 import com.edu.workspace.repository.DeviceRepository
+import com.edu.workspace.network.ApiEndpoints
 
 class CrearEViewModel : ViewModel() {
 
@@ -87,9 +88,7 @@ class CrearEViewModel : ViewModel() {
     fun fetchSensoresLibres() {
         val usuario = _userId.value ?: return
 
-
-
-        val url = "http://192.168.0.56:4001/entorno/sensores/libres/usuario/$usuario"
+        val url = ApiEndpoints.sensoresDisponibles(usuario)
 
         Thread {
             try {
@@ -208,7 +207,6 @@ class CrearEViewModel : ViewModel() {
     }
 
      */
-
     private fun updateDevicesUI() {
         val devices = _devices.value ?: emptyList()
         val selected = _selectedDevicesWithValues.value ?: emptyMap()

@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.edu.workspace.R
 import com.airbnb.lottie.LottieAnimationView
-
+import com.edu.workspace.network.ApiEndpoints
 
 class RegistroActivity : AppCompatActivity() {
     private lateinit var RegistroLoadingAnimation: LottieAnimationView
@@ -44,12 +44,13 @@ class RegistroActivity : AppCompatActivity() {
     private val client = OkHttpClient()
     private val calendar = Calendar.getInstance()
 
-    private val REGISTRATION_URL = "https://apiworkspace.onrender.com/users"
-
+    private val REGISTRATION_URL = "http://192.168.100.14:4001/users"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
+
+        // Inicializar vistas
         tilNombre = findViewById(R.id.Nombre)
         etNombre = findViewById(R.id.etNombre)
         tilApellido = findViewById(R.id.tilApellido)
@@ -67,7 +68,7 @@ class RegistroActivity : AppCompatActivity() {
         btnRegistrar = findViewById(R.id.btnRegistrar)
         RegistroLoadingAnimation = findViewById(R.id.RegistroLoadingAnimation)
 
-        // Configurar DatePickerDialog para la fecha de cumpleaños
+        // DatePicker
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
@@ -75,24 +76,25 @@ class RegistroActivity : AppCompatActivity() {
             updateDateInView()
         }
 
-        etFechaCumpleanos.setOnClickListener {
-            DatePickerDialog(
-                this,
-                dateSetListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+        etFechaCumpleanos.apply {
+            isFocusable = false
+            isFocusableInTouchMode = false
+            setOnClickListener {
+                DatePickerDialog(
+                    this@RegistroActivity,
+                    dateSetListener,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
         }
-        // También deshabilita el foco para que no muestre el teclado
-        etFechaCumpleanos.isFocusable = false
-        etFechaCumpleanos.isFocusableInTouchMode = false
 
-
+        // Botón de registro
         btnRegistrar.setOnClickListener {
             if (validateInput()) {
-                registrarUsuario()
                 showLoadingAnimation(true)
+                registrarUsuario()
             }
         }
     }
@@ -105,87 +107,101 @@ class RegistroActivity : AppCompatActivity() {
                 RegistroLoadingAnimation.visibility = View.VISIBLE
                 RegistroLoadingAnimation.playAnimation()
             } else {
-
                 RegistroLoadingAnimation.cancelAnimation()
                 RegistroLoadingAnimation.visibility = View.INVISIBLE
                 btnRegistrar.text = "Registrar"
-                btnRegistrar.isEnabled = true}
+                btnRegistrar.isEnabled = true
             }
+        }
     }
 
     private fun updateDateInView() {
-        val myFormat = "yyyy-MM-dd" // Formato esperado por el backend
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         etFechaCumpleanos.setText(sdf.format(calendar.time))
     }
 
+    // 🔒 VALIDACIONES MEJORADAS
     private fun validateInput(): Boolean {
         var isValid = true
 
+        val nombre = etNombre.text.toString().trim()
+        val apellido = etApellido.text.toString().trim()
+        val correo = etCorreo.text.toString().trim()
+        val telefono = etTelefono.text.toString().trim()
+        val fecha = etFechaCumpleanos.text.toString().trim()
+        val contrasena = etContrasena.text.toString()
+        val confirmar = etConfirmarContrasena.text.toString()
+
         // Nombre
-        if (etNombre.text.toString().trim().isEmpty()) {
-            tilNombre.error = "El nombre es requerido"
+        if (nombre.isEmpty()) {
+            tilNombre.error = "El nombre es obligatorio"
+            isValid = false
+        } else if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$".toRegex())) {
+            tilNombre.error = "El nombre solo puede contener letras"
             isValid = false
         } else {
             tilNombre.error = null
         }
 
         // Apellido
-        if (etApellido.text.toString().trim().isEmpty()) {
-            tilApellido.error = "El apellido es requerido"
+        if (apellido.isEmpty()) {
+            tilApellido.error = "El apellido es obligatorio"
+            isValid = false
+        } else if (!apellido.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$".toRegex())) {
+            tilApellido.error = "El apellido solo puede contener letras"
             isValid = false
         } else {
             tilApellido.error = null
         }
 
         // Correo
-        val email = etCorreo.text.toString().trim()
-        if (email.isEmpty()) {
-            tilCorreo.error = "El correo electrónico es requerido"
+        if (correo.isEmpty()) {
+            tilCorreo.error = "El correo es obligatorio"
             isValid = false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tilCorreo.error = "Ingresa un correo electrónico válido"
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            tilCorreo.error = "Ingresa un correo válido"
             isValid = false
         } else {
             tilCorreo.error = null
         }
 
         // Teléfono
-        if (etTelefono.text.toString().trim().isEmpty()) {
-            tilTelefono.error = "El teléfono es requerido"
+        if (telefono.isEmpty()) {
+            tilTelefono.error = "El teléfono es obligatorio"
+            isValid = false
+        } else if (!telefono.matches("^[0-9]{10}$".toRegex())) {
+            tilTelefono.error = "El teléfono debe tener 10 dígitos numéricos"
             isValid = false
         } else {
-            // Podrías añadir una validación más específica para el formato del teléfono si es necesario
             tilTelefono.error = null
         }
 
-        // Fecha de Cumpleaños
-        if (etFechaCumpleanos.text.toString().trim().isEmpty()) {
-            tilFechaCumpleanos.error = "La fecha de cumpleaños es requerida"
+        // Fecha
+        if (fecha.isEmpty()) {
+            tilFechaCumpleanos.error = "Selecciona una fecha válida"
             isValid = false
         } else {
-            // Aquí podrías validar el formato de la fecha si no usas el DatePicker
             tilFechaCumpleanos.error = null
         }
 
         // Contraseña
-        val password = etContrasena.text.toString()
-        if (password.isEmpty()) {
-            tilContrasena.error = "La contraseña es requerida"
+        val passwordRegex = Regex("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#\$%^&+=!]).{8,}$")
+        if (contrasena.isEmpty()) {
+            tilContrasena.error = "La contraseña es obligatoria"
             isValid = false
-        } else if (password.length < 6) { // Ejemplo de validación de longitud
-            tilContrasena.error = "La contraseña debe tener al menos 6 caracteres"
+        } else if (!passwordRegex.containsMatchIn(contrasena)) {
+            tilContrasena.error =
+                "Debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo"
             isValid = false
         } else {
             tilContrasena.error = null
         }
 
-        // Confirmar Contraseña
-        val confirmPassword = etConfirmarContrasena.text.toString()
-        if (confirmPassword.isEmpty()) {
+        // Confirmar contraseña
+        if (confirmar.isEmpty()) {
             tilConfirmarContrasena.error = "Confirma la contraseña"
             isValid = false
-        } else if (password != confirmPassword) {
+        } else if (contrasena != confirmar) {
             tilConfirmarContrasena.error = "Las contraseñas no coinciden"
             isValid = false
         } else {
@@ -196,32 +212,26 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun registrarUsuario() {
-        val nombre = etNombre.text.toString().trim()
-        val apellido = etApellido.text.toString().trim()
-        val correo = etCorreo.text.toString().trim()
-        val telefono = etTelefono.text.toString().trim()
-        val fechaCumpleanos = etFechaCumpleanos.text.toString() // Formato YYYY-MM-DD
-        val contrasena = etContrasena.text.toString()
-
         val jsonRequestBody = JSONObject()
         try {
-            jsonRequestBody.put("nombre", nombre)
-            jsonRequestBody.put("apellido", apellido)
-            jsonRequestBody.put("correo", correo)
-            jsonRequestBody.put("telefono", telefono)
-            jsonRequestBody.put("fechaCumpleanos", fechaCumpleanos)
-            jsonRequestBody.put("contrasena", contrasena)
+            jsonRequestBody.put("nombre", etNombre.text.toString().trim())
+            jsonRequestBody.put("apellido", etApellido.text.toString().trim())
+            jsonRequestBody.put("correo", etCorreo.text.toString().trim())
+            jsonRequestBody.put("telefono", etTelefono.text.toString().trim())
+            jsonRequestBody.put("fechaCumpleanos", etFechaCumpleanos.text.toString())
+            jsonRequestBody.put("contrasena", etContrasena.text.toString())
         } catch (e: JSONException) {
             e.printStackTrace()
             Toast.makeText(this, "Error al crear la solicitud", Toast.LENGTH_SHORT).show()
+            showLoadingAnimation(false)
             return
         }
 
         val requestBody = jsonRequestBody.toString()
-            .toRequestBody("application/json; charset=utf-f".toMediaTypeOrNull())
+            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
         val request = Request.Builder()
-            .url(REGISTRATION_URL) // Usa la URL definida
+            .url(ApiEndpoints.REGISTER)
             .post(requestBody)
             .build()
 
@@ -229,57 +239,29 @@ class RegistroActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
                 runOnUiThread {
-                    Log.e("RegistroActivity", "Fallo en la solicitud: ${e.message}")
+                    showLoadingAnimation(false)
                     Toast.makeText(this@RegistroActivity, "Error de red: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 val responseBodyString = response.body?.string()
-                Log.d("RegistroActivity", "Respuesta del servidor: Código: ${response.code}, Cuerpo: $responseBodyString")
-
                 runOnUiThread {
+                    showLoadingAnimation(false)
                     try {
                         if (response.isSuccessful && responseBodyString != null) {
                             val jsonResponse = JSONObject(responseBodyString)
-                            val message = jsonResponse.optString("message", "Registro exitoso") // optString para evitar crash si no existe
+                            val message = jsonResponse.optString("message", "Registro exitoso")
                             Toast.makeText(this@RegistroActivity, message, Toast.LENGTH_LONG).show()
-
-                            // Opcional: navegar a otra actividad (ej. LoginActivity)
-                            // val intent = Intent(this@RegistroActivity, LoginActivity::class.java)
-                            // startActivity(intent)
-                            finish() // Cierra la actividad de registro
-
+                            finish()
                         } else {
-                            // Intentar parsear el error del cuerpo de la respuesta si está disponible
-                            var errorMessage = "Error en el registro (Código: ${response.code})"
-                            if (!responseBodyString.isNullOrEmpty()) {
-                                try {
-                                    val errorJson = JSONObject(responseBodyString)
-                                    val serverError = errorJson.optString("error")
-                                    val detalles = errorJson.optJSONArray("detalles")
-
-                                    if (!serverError.isNullOrEmpty()) {
-                                        errorMessage = serverError
-                                        if (detalles != null && detalles.length() > 0) {
-                                            errorMessage += ": " + detalles.join(", ")
-                                        }
-                                    }
-                                } catch (e: JSONException) {
-                                    Log.e("RegistroActivity", "Error al parsear JSON de error: $responseBodyString")
-                                    // Usar el cuerpo de la respuesta como mensaje de error si no es JSON o no se pudo parsear
-                                    if (responseBodyString.length < 200) { // Evitar Toasts muy largos
-                                        errorMessage = responseBodyString
-                                    }
-                                }
-                            }
+                            val errorMessage = responseBodyString ?: "Error desconocido en el registro"
                             Toast.makeText(this@RegistroActivity, errorMessage, Toast.LENGTH_LONG).show()
                         }
                     } catch (e: JSONException) {
-                        e.printStackTrace()
                         Toast.makeText(this@RegistroActivity, "Error al procesar la respuesta del servidor.", Toast.LENGTH_LONG).show()
                     } finally {
-                        response.body?.close() // Muy importante cerrar el body
+                        response.body?.close()
                     }
                 }
             }

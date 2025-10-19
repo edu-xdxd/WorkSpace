@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@drawable/bg_gradiente_mejorado"
     android:padding="24dp">
 
     <!-- Encabezado con título y fecha -->
@@ -16,20 +20,11 @@
         android:text="Entorno seleccionado"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:fontFamily="sans-serif-medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/tvHeaderDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Prueba"
-        android:textColor="#718096"
-        android:textSize="16sp"
-        android:fontFamily="sans-serif"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- Escenario principal -->
     <androidx.cardview.widget.CardView
@@ -43,7 +38,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvHeaderTitle"
-        app:layout_constraintBottom_toTopOf="@+id/weatherSection"
+        app:layout_constraintBottom_toTopOf="@+id/liveDataSection"
         app:layout_constraintHeight_percent="0.55">
 
         <ImageView
@@ -54,8 +49,10 @@
             android:alpha="0.25"
             android:src="@drawable/bg_gradiente" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/botonIrDetalle"
+            android:background="@drawable/bg_gradient_button"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ir a Detalle" />
@@ -99,8 +96,10 @@
                 android:gravity="center"
                 android:paddingBottom="16dp"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnToggleEstado"
+                android:background="@drawable/bg_gradient_button"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cambiar Estado"
@@ -125,41 +124,45 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Otros Escenarios"
-
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         android:fontFamily="sans-serif-medium"
         android:paddingBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvHeaderDate"
+
         app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Contenedor de escenarios secundarios -->
+
+    <!-- Sección del clima -->
+    <!-- Sección de Datos Relevantes / Atajos (REEMPLAZA AL CLIMA) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSecondaryScenarios"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:padding="4dp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        
-        app:layout_constraintTop_toBottomOf="@+id/tvSecondaryTitle"
-        app:layout_constraintBottom_toTopOf="@+id/weatherSection"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-        tools:listitem="@layout/item_secondary_scenario"/>
+        android:clipToPadding="false"
+        android:padding="4dp"
 
-    <!-- Sección del clima -->
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/liveDataSection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
+        app:layout_constraintTop_toBottomOf="@+id/tvSecondaryTitle"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_secondary_scenario" />
+
     <androidx.cardview.widget.CardView
-        android:id="@+id/weatherSection"
+        android:id="@+id/liveDataSection"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         app:cardCornerRadius="24dp"
-        app:cardElevation="4dp"
-
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintTop_toBottomOf="@+id/cardMainScenario">
@@ -167,78 +170,127 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Icono del clima -->
-            <ImageView
-                android:id="@+id/ivWeatherIcon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_sunny"
-                android:contentDescription="Icono del clima"
-                />
-
-            <!-- Información del clima -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="24dp"
-                android:orientation="vertical">
+                android:text="Resumen del Entorno"
+                android:textSize="18sp"
+                android:textColor="#4A5568"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="16dp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Temperatura Actual"
+            <!-- Contenedor horizontal para los tres indicadores -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif"/>
-
+                <!-- Tipo de Música Activa -->
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/music_note_24px"
+                        android:tint="#4A90E2" />
                     <TextView
-                        android:id="@+id/tvTemperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="25°C"
-
-                        android:textSize="36sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-light"/>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="24dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="#CBD5E0"/>
-
+                        android:text="Música"
+                        android:textSize="14sp"
+                        android:textColor="#718096"
+                        android:layout_marginTop="4dp"/>
                     <TextView
-                        android:id="@+id/tvWeatherCondition"
+                        android:id="@+id/tvMusicType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Soleado"
-
+                        android:text="Lo-Fi"
                         android:textSize="20sp"
-                        android:fontFamily="sans-serif-medium"/>
+                        android:textStyle="bold"
+                        android:textColor="#2D3748"/>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Condiciones ideales para estudiar al aire libre"
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="50dp"
+                    android:background="#CBD5E0"/>
 
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif"/>
+                <!-- Estado de Luces -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/lightbulb_24px"
+                        android:tint="#F6AD55" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Luces"
+                        android:textSize="14sp"
+                        android:textColor="#718096"
+                        android:layout_marginTop="4dp"/>
+                    <TextView
+                        android:id="@+id/tvLightStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Encendidas"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#2D3748"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="50dp"
+                    android:background="#CBD5E0"/>
+
+                <!-- Velocidad del Ventilador -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/fan_24px"
+                        android:tint="#48BB78" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ventilador"
+                        android:textSize="14sp"
+                        android:textColor="#718096"
+                        android:layout_marginTop="4dp"/>
+                    <TextView
+                        android:id="@+id/tvFanSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Media"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#2D3748"/>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

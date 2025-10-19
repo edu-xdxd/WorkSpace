@@ -15,6 +15,8 @@ import com.edu.workspace.R
 import com.edu.workspace.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
 import androidx.core.os.bundleOf
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.edu.workspace.network.ApiEndpoints
 
 
 class HomeFragment : Fragment() {
@@ -23,6 +25,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var entornosAdapter: EntornosAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +41,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Configurar SwipeRefreshLayout
+        swipeRefreshLayout = binding.root.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            // Ejecutar la recarga de entornos
+            homeViewModel.loadEntornos(requireContext())
+        }
+
 
 
         binding.btnToggleEstado.setOnClickListener {
@@ -121,6 +133,8 @@ class HomeFragment : Fragment() {
 
     }
 
+
+
     private fun aplicarFondoSegunNombre(nombre: String) {
         val nombreLower = nombre.lowercase()
         val fondoRes = when {
@@ -140,7 +154,7 @@ class HomeFragment : Fragment() {
 
 
     private fun toggleEstadoEntorno(entornoId: String, usuarioId: String) {
-        val url = "http://192.168.100.11:4001/entorno/toggle/$entornoId/usuario/$usuarioId"
+        val url = ApiEndpoints.toogleEntorno(entornoId, usuarioId)
 
         Thread {
             try {
@@ -179,44 +193,134 @@ class HomeFragment : Fragment() {
         }
     }
 
+    // En HomeFragment, agrega esta función para actualizar los indicadores
+    // En HomeFragment, actualiza la función actualizarEstiloMusica:
+    private fun actualizarEstiloMusica(playlist: List<HomeViewModel.PlaylistInfo>) {
+        if (playlist.isNotEmpty()) {
+            val primerTema = playlist.first()
 
+            // Usar la función obtenerNombreTema() para manejar ambos formatos
+            val nombreTema = primerTema.obtenerNombreTema()
 
+            // Mapear IDs a nombres descriptivos si es necesario (opcional)
+            val estiloMusica = when (primerTema.id) {
+                "1" -> "Relajante"
+                "2" -> "Energética"
+                "3" -> "Fiesta"
+                "4" -> "Naturaleza"
+                "5" -> "Concentración"
+                else -> nombreTema
+            }
+
+            binding.tvMusicType.text = estiloMusica
+        } else {
+            binding.tvMusicType.text = "Sin música"
+        }
+    }
+
+    // También actualiza la función actualizarIndicadoresSensores para que sea más clara:
+    private fun actualizarIndicadoresSensores(entorno: HomeViewModel.Entorno) {
+        val sensores = entorno.sensores
+
+        // Buscar sensores específicos
+        val sensorLuz = sensores.find { it.tipoSensor == "LIGHT" }
+        val sensorVentilador = sensores.find { it.tipoSensor == "FAN" }
+        val sensorAireAcondicionado = sensores.find { it.tipoSensor == "AIR_CONDITIONER" }
+
+        // Actualizar estado de luces
+        actualizarEstadoLuces(sensorLuz)
+
+        // Actualizar velocidad del ventilador
+        actualizarEstadoVentilador(sensorVentilador)
+
+        // Actualizar estilo de música
+        actualizarEstiloMusica(entorno.playlist)
+
+        // Opcional: Actualizar estado del aire acondicionado si quieres mostrarlo en otro lugar
+        actualizarEstadoAireAcondicionado(sensorAireAcondicionado)
+    }
+
+    // Funciones auxiliares para mayor claridad:
+    private fun actualizarEstadoLuces(sensorLuz: HomeViewModel.Sensor?) {
+        sensorLuz?.let { luz ->
+            val estadoLuz = if (luz.valorSensor > 0) "Encendidas" else "Apagadas"
+            binding.tvLightStatus.text = estadoLuz
+
+            val colorLuz = if (luz.valorSensor > 0) {
+                ContextCompat.getColor(requireContext(), R.color.green)
+            } else {
+                ContextCompat.getColor(requireContext(), R.color.gray)
+            }
+            binding.tvLightStatus.setTextColor(colorLuz)
+        } ?: run {
+            binding.tvLightStatus.text = "No disponible"
+            binding.tvLightStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
+        }
+    }
+
+    private fun actualizarEstadoVentilador(sensorVentilador: HomeViewModel.Sensor?) {
+        sensorVentilador?.let { fan ->
+            val velocidad = when {
+                fan.valorSensor == 0 -> "Apagado"
+                fan.valorSensor <= 85 -> "Baja"
+                fan.valorSensor <= 170 -> "Media"
+                else -> "Alta"
+            }
+            binding.tvFanSpeed.text = velocidad
+        } ?: run {
+            binding.tvFanSpeed.text = "No disponible"
+        }
+    }
+
+    private fun actualizarEstadoAireAcondicionado(sensorAC: HomeViewModel.Sensor?) {
+        // Puedes usar esta función si quieres mostrar el estado del AC en otro TextView
+        sensorAC?.let { ac ->
+            val estadoAC = if (ac.valorSensor > 0) "Encendido" else "Apagado"
+            // binding.tvACStatus.text = estadoAC // Si tienes un TextView para esto
+
+        }
+    }
+
+    // En observeViewModel, llama a la función cuando se actualice el entorno
     private fun observeViewModel() {
         homeViewModel.mainScenario.observe(viewLifecycleOwner) { scenario ->
             binding.tvMainScenarioTitle.text = scenario
-
 
             val entorno = homeViewModel.entornos.value?.find { it.nombre == scenario }
             entorno?.let {
                 val estadoTexto = if (it.estado) "Activo" else "Inactivo"
                 binding.tvMainScenarioStatus.text = "Estado: $estadoTexto"
-                binding.btnToggleEstado.text = estadoTexto // ← Aquí actualizas el texto del botón
-                if (entorno.estado) {
+                binding.btnToggleEstado.text = if (it.estado) "Desactivar" else "Activar"
+
+                if (it.estado) {
                     binding.btnToggleEstado.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green))
                 } else {
                     binding.btnToggleEstado.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.gray))
                 }
+
                 aplicarFondoSegunNombre(it.nombre)
+                actualizarIndicadoresSensores(it) // ← ¡Esta es la línea importante!
             }
         }
 
         homeViewModel.entornos.observe(viewLifecycleOwner) { entornos ->
             entornosAdapter.submitList(entornos)
-            // También actualizar el texto del botón con base en el nuevo estado
-            val entorno = homeViewModel.mainScenario.value?.let { mainNombre ->
+            swipeRefreshLayout.isRefreshing = false
+
+            // Actualizar indicadores si el entorno principal está en la lista
+            val entornoPrincipal = homeViewModel.mainScenario.value?.let { mainNombre ->
                 entornos.find { it.nombre == mainNombre }
             }
-            entorno?.let {
-                val estadoTexto = if (it.estado) "Activo" else "Inactivo"
-                binding.tvMainScenarioStatus.text = "Estado: $estadoTexto"
-                binding.btnToggleEstado.text = estadoTexto // ← Aquí también
+            entornoPrincipal?.let {
+                actualizarIndicadoresSensores(it)
             }
         }
 
-        homeViewModel.weatherData.observe(viewLifecycleOwner) { weatherInfo ->
-            binding.tvTemperature.text = getString(R.string.temperature_format, weatherInfo.temperature)
-            binding.tvWeatherCondition.text = weatherInfo.condition
-            binding.ivWeatherIcon.setImageResource(weatherInfo.iconResId)
+        homeViewModel.loadError.observe(viewLifecycleOwner) { error ->
+            if (error) {
+                swipeRefreshLayout.isRefreshing = false
+                Toast.makeText(requireContext(), "Error al cargar entornos", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

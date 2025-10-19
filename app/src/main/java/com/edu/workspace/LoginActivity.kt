@@ -24,6 +24,8 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import com.airbnb.lottie.LottieAnimationView
+import com.edu.workspace.network.ApiEndpoints
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -35,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var creareCuenta: Button
     private lateinit var loginLoadingAnimation: LottieAnimationView
     private lateinit var checkboxRememberSession: CheckBox // Declarar el CheckBox
-
 
 
     private val client = OkHttpClient() // Instancia de OkHttpClient
@@ -74,15 +75,23 @@ class LoginActivity : AppCompatActivity() {
         }
 
         buttonLogin.setOnClickListener {
-            val correo = editTextEmail.text.toString().trim()
-            val contrasena = editTextPassword.text.toString().trim()
+            var correo = editTextEmail.text.toString().trim()
+            var contrasena = editTextPassword.text.toString().trim()
+
+            correo = sanitizeInput(correo)
+            contrasena = sanitizeInput(contrasena)
 
             if (validateInput(correo, contrasena)) {
-                // Mostrar animación de carga
                 showLoadingAnimation(true)
                 loginUserWithOkHttp(correo, contrasena)
             }
         }
+
+    }
+
+    private fun sanitizeInput(input: String): String {
+        // Elimina caracteres potencialmente peligrosos
+        return input.replace(Regex("""[\$<>{}'";]"""), "")
     }
 
     private fun showLoadingAnimation(show: Boolean) {
@@ -102,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUserWithOkHttp(correo: String, contrasena: String) {
-        val url = "http://192.168.100.11:4001/login"
+        val url = ApiEndpoints.LOGIN
 
         val jsonObject = JSONObject()
         jsonObject.put("correo", correo)

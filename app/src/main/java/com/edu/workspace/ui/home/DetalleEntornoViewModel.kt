@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.edu.workspace.model.DeviceType
 import com.edu.workspace.model.DeviceUI
+import com.edu.workspace.network.ApiEndpoints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -83,7 +84,7 @@ class DetalleEntornoViewModel(application: Application) : AndroidViewModel(appli
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val client = OkHttpClient()
-                val url = "http://192.168.100.11:4001/entorno/parametros/$entornoId/usuario/$userId"
+                val url = ApiEndpoints.parametros(entornoId, userId)
                 val request = Request.Builder().url(url).get().build()
                 val response = client.newCall(request).execute()
 
@@ -279,12 +280,12 @@ class DetalleEntornoViewModel(application: Application) : AndroidViewModel(appli
                             })
                         }
                     })
-                    put("deviceId", "d  efault_device")
+                    put("deviceId", "default_device")
                     put("usuario", userId)
                 }
 
                 val client = OkHttpClient()
-                val url = "http://192.168.100.11:4001/entorno/$entornoId"
+                val url = ApiEndpoints.guargarConfiEntorno(entornoId)
                 val requestBody = jsonBody.toString().toRequestBody("application/json".toMediaType())
 
                 val request = Request.Builder()
