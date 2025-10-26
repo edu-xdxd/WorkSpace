@@ -4,6 +4,8 @@ plugins {
 }
 
 android {
+
+
     namespace = "com.edu.workspace"
     compileSdk = 35
 
@@ -16,6 +18,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+
 
     buildTypes {
         release {
@@ -51,6 +55,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation ("com.google.android.material:material:1.11.0")
@@ -58,6 +63,7 @@ dependencies {
     implementation ("com.airbnb.android:lottie:6.4.0")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
 
 
 }
