@@ -13,15 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="alPulsarCerrarSesion_seLanzaLoginActivity()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="MainActivityTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="MainActivityLoggedInTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="LoginActivityTest">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2025-10-29T14:45:02.807433400Z">
@@ -34,6 +25,12 @@
         <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="MainActivityFunctionalTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="Tests in 'com.edu.workspace'">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="loginAttempt_withValidCredentials_triggersIntentToMainActivity()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

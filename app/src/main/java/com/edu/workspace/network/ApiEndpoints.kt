@@ -1,7 +1,7 @@
 package com.edu.workspace.network
 
 object ApiEndpoints {
-    private const val BASE_URL = "http://10.1.3.171:4001"
+    private const val BASE_URL = "https://apiworkspace.onrender.com"
 
     //login
     const val LOGIN = "$BASE_URL/login"
