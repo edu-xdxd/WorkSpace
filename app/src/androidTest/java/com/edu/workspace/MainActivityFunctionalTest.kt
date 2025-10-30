@@ -6,8 +6,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Rule
-import org.junit.Test
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import android.view.View
+import org.hamcrest.Matcher
+import org.junit.*
 import org.junit.runner.RunWith
 
 /**
@@ -20,12 +23,24 @@ class MainActivityFunctionalTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
+    private fun waitForView(timeout: Long = 3000): ViewAction {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> = isRoot()
+            override fun getDescription() = "Esperar $timeout ms para que la vista cargue"
+            override fun perform(uiController: UiController?, view: View?) {
+                uiController?.loopMainThreadForAtLeast(timeout)
+            }
+        }
+    }
+
+    /**
+     * Verifica que el HomeFragment se muestre por defecto
+     */
     @Test
     fun homeFragment_isDisplayedByDefault() {
-        // Comprueba que el texto o elemento principal del HomeFragment aparezca
+        onView(isRoot()).perform(waitForView())
         onView(withId(R.id.tvHeaderTitle))
             .check(matches(isDisplayed()))
     }
-
 
 }

@@ -1,20 +1,19 @@
 package com.edu.workspace
 
-
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
-
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import android.view.View
+import org.hamcrest.Matcher
+import org.junit.*
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -25,31 +24,41 @@ class LoginActivityTest {
 
     @Before
     fun setup() {
-        // Inicializa el sistema de Intents para monitorear y controlar los Intents salientes
         Intents.init()
-
-        // Simula (intercepta) el Intent hacia MainActivity sin lanzar realmente esa Activity
-       /* intending(hasComponent(MainActivity::class.java.name)).respondWith(
-            Instrumentation.ActivityResult(0, null)
-        )*/
     }
 
     @After
     fun tearDown() {
-        // Libera el sistema de Intents después de cada prueba
         Intents.release()
     }
 
+    /**
+     * Espera personalizada para dar tiempo a que las vistas carguen
+     */
+    private fun waitForView(timeout: Long = 3000): ViewAction {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> = isRoot()
+            override fun getDescription() = "Esperar $timeout ms para que la vista cargue"
+            override fun perform(uiController: UiController?, view: View?) {
+                uiController?.loopMainThreadForAtLeast(timeout)
+            }
+        }
+    }
+
+    /**
+     * Verifica que al presionar el texto "SignUp" se abra la pantalla de registro
+     */
     @Test
-    fun loginAttempt_withValidCredentials_triggersIntentToMainActivity() {
-        // Simula ingreso de credenciales válidas
+    fun loginAttempt_withValidCredentials_triggersIntentToRegistroActivity() {
+        // Espera a que la pantalla cargue
+        onView(isRoot()).perform(waitForView())
 
-
-        // Simula clic en botón de login
+        // Simula clic en el texto "¿No tienes cuenta? Regístrate"
         onView(withId(R.id.textViewSignUp))
             .perform(click())
 
-        // Verifica que se haya lanzado un Intent hacia MainActivity
+        // Verifica que se haya lanzado el intent hacia RegistroActivity
         intended(hasComponent(RegistroActivity::class.java.name))
     }
+
 }
