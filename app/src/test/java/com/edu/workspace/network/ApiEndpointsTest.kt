@@ -9,7 +9,7 @@ class ApiEndpointsTest {
     fun `getEntornosPorUsuario builds URL correctly`() {
         // 1. Preparación (Arrange)
         val userId = "6876647737a8b2703bf56595"
-        val expectedUrl = "http://192.168.100.15:4001/entorno/usuario/completo/$userId"
+        val expectedUrl = "https://apiworkspace.onrender.com/entorno/usuario/completo/$userId"
 
         // 2. Acción (Act)
         val generatedUrl = ApiEndpoints.getEntornosPorUsuario(userId)
