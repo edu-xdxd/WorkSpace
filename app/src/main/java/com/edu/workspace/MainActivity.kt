@@ -20,10 +20,6 @@ import com.edu.workspace.LoginActivity // Ajusta el paquete si es necesario
 
 class MainActivity : AppCompatActivity() {
 
-
-
-
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -61,8 +57,6 @@ class MainActivity : AppCompatActivity() {
             val navController = findNavController(R.id.nav_host_fragment_content_main)
             navController.navigate(R.id.nav_crear_e)
         }
-
-
         // Escuchar cambios de destino de navegación
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 if (destination.id == R.id.nav_home) {

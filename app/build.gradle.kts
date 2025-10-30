@@ -64,6 +64,8 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("androidx.navigation:navigation-testing:2.7.5")
+    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
 
 
 }
