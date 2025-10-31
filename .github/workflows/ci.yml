@@ -9,19 +9,41 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
 
     steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 17
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - name: Permisos Gradlew
+
+      - name: Give Gradlew permissions
         run: chmod +x gradlew
 
-      - name: Setup gradle
-        uses: gradle/gradle-build-action@v2
-      - name: Build App
-        run: ./gradlew assemble
+      - name: Clean project
+        run: ./gradlew clean
+
+      - name: Build APK
+        run: ./gradlew assembleDebug
+
+      - name: Start Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: Nexus 6
+          emulator-options: -no-window -no-snapshot -noaudio -gpu swiftshader_indirect
+          disable-animations: true
+          script: |
+            adb wait-for-device
+            adb shell settings put global window_animation_scale 0 &
+            adb shell settings put global transition_animation_scale 0 &
+            adb shell settings put global animator_duration_scale 0 &
+            sleep 60  
+            ./gradlew connectedDebugAndroidTest
