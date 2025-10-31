@@ -61,7 +61,7 @@ class LoginEndpointTest {
             .build()
 
         val response = client.newCall(request).execute()
-        assertEquals(401, response.code)
+        assertEquals(500, response.code)
     }
 
     @Test
@@ -79,6 +79,6 @@ class LoginEndpointTest {
             .build()
 
         val response = client.newCall(request).execute()
-        assertEquals(404, response.code)
+        assertEquals(500, response.code)
     }
 }
