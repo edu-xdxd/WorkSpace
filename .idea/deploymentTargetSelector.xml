@@ -27,9 +27,6 @@
       <SelectionState runConfigName="MainActivityFunctionalTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="Tests in 'com.edu.workspace'">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="loginAttempt_withValidCredentials_triggersIntentToMainActivity()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
