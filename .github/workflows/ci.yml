@@ -34,14 +34,14 @@ jobs:
       - name: Build APK
         run: ./gradlew assembleDebug
 
-      - name: Run Android Instrumented Tests (API 34 - Android 14)
+      - name: Run Android Instrumented Tests
         uses: reactivecircus/android-emulator-runner@v2
         continue-on-error: true
         with:
           api-level: 34
           target: default
           arch: x86_64
-          profile: Pixel_6_Pro
+          profile: pixel
           emulator-options: -no-window -no-snapshot -noaudio -gpu swiftshader_indirect
           disable-animations: true
           script: |
