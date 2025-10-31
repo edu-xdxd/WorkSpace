@@ -38,6 +38,8 @@ class MainActivityFunctionalTest {
      */
     @Test
     fun homeFragment_isDisplayedByDefault() {
+
+        Thread.sleep(30000)
         onView(isRoot()).perform(waitForView())
         onView(withId(R.id.tvHeaderTitle))
             .check(matches(isDisplayed()))

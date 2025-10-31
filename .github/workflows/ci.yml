@@ -38,12 +38,9 @@ jobs:
           target: default
           arch: x86_64
           profile: Nexus 6
-          emulator-options: -no-window -no-snapshot -noaudio -gpu swiftshader_indirect
+          emulator-options: -gpu host -no-snapshot -noaudio
           disable-animations: true
           script: |
             adb wait-for-device
-            adb shell settings put global window_animation_scale 0 &
-            adb shell settings put global transition_animation_scale 0 &
-            adb shell settings put global animator_duration_scale 0 &
-            sleep 60  
+            sleep 30
             ./gradlew connectedDebugAndroidTest

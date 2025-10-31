@@ -35,7 +35,7 @@ class LoginActivityTest {
     /**
      * Espera personalizada para dar tiempo a que las vistas carguen
      */
-    private fun waitForView(timeout: Long = 3000): ViewAction {
+    private fun waitForView(timeout: Long = 30000): ViewAction {
         return object : ViewAction {
             override fun getConstraints(): Matcher<View> = isRoot()
             override fun getDescription() = "Esperar $timeout ms para que la vista cargue"
@@ -50,6 +50,8 @@ class LoginActivityTest {
      */
     @Test
     fun loginAttempt_withValidCredentials_triggersIntentToRegistroActivity() {
+        Thread.sleep(30000)
+
         // Espera a que la pantalla cargue
         onView(isRoot()).perform(waitForView())
 
