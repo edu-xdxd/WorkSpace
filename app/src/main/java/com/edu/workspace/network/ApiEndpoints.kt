@@ -6,6 +6,9 @@ object ApiEndpoints {
     //login
     const val LOGIN = "$BASE_URL/login"
 
+    // login
+    var LOGINP = "$BASE_URL/login"  // cambiar const val → var
+
     //registro
     const val REGISTER = "$BASE_URL/users"
 

@@ -2,7 +2,6 @@ package com.edu.workspace
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
@@ -35,7 +34,7 @@ class LoginActivityTest {
     /**
      * Espera personalizada para dar tiempo a que las vistas carguen
      */
-    private fun waitForView(timeout: Long = 30000): ViewAction {
+    private fun waitForView(timeout: Long = 3000): ViewAction {
         return object : ViewAction {
             override fun getConstraints(): Matcher<View> = isRoot()
             override fun getDescription() = "Esperar $timeout ms para que la vista cargue"
@@ -49,9 +48,7 @@ class LoginActivityTest {
      * Verifica que al presionar el texto "SignUp" se abra la pantalla de registro
      */
     @Test
-    fun loginAttempt_withValidCredentials_triggersIntentToRegistroActivity() {
-        Thread.sleep(30000)
-
+    fun RegistroActivityTest() {
         // Espera a que la pantalla cargue
         onView(isRoot()).perform(waitForView())
 
